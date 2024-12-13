@@ -49,10 +49,10 @@ class State(rx.State):
         self.tries += 1
         if not self.guessed:
             if unidecode(guess) < unidecode(self.word):
-                self.words_before.append(guess)
+                self.words_before.append(unidecode(guess))
                 self.words_before.sort()
             else:
-                self.words_after.append(guess)
+                self.words_after.append(unidecode(guess))
                 self.words_after.sort()
         else:
             end = (datetime.now() - self.start).seconds
@@ -128,7 +128,17 @@ def show_win_state():
     )
 
 
-@rx.page(title="AlfaPT", description="Jogo de adivinhar palavras", on_load=State.init)
+@rx.page(
+    title="AlfaPT",
+    description="Jogo de adivinhar palavras",
+    on_load=State.init,
+    meta=[
+        {
+            "name": "google-site-verification",
+            "content": "qj2k7933nLsixrnQ7-qjWPrsYfMgsqpfl3fs9lnaF8s",
+        }
+    ],
+)
 def index() -> rx.Component:
     return rx.container(
         rx.color_mode.button(position="top-right"),
